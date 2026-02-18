@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Working on updates</title>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #0067C0;
+    font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+    color: #ffffff;
+    overflow: hidden;
+    cursor: none;
+}
+
+.screen {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.content {
+    transform: translateY(-3vh); /* Windows 11 slightly higher alignment */
+}
+
+.main-text {
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: 0.15px;
+}
+
+.main-text strong {
+    font-weight: 400;
+}
+
+.footer {
+    position: absolute;
+    bottom: 7vh;
+    width: 100%;
+    font-size: 16px;
+    opacity: 0.85;
+}
+</style>
+</head>
+<body>
+
+<div class="screen">
+    <div class="content">
+        <div class="main-text">
+            Working on updates 98% complete.<br>
+            Don't turn off your PC. This will take a while.
+        </div>
+    </div>
+
+    <div class="footer">
+        Your PC may restart several times
+    </div>
+</div>
+
+<script>
+// Fullscreen
+document.documentElement.requestFullscreen?.();
+
+// Exit fullscreen detection
+document.addEventListener("fullscreenchange", () => {
+    if (!document.fullscreenElement) {
+        // wipe screen completely
+        document.body.innerHTML = "";
+        document.body.style.background = "black";
+        document.body.style.cursor = "default";
+    }
+});
+</script>
+
+</body>
+</html>
