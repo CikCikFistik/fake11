@@ -10,50 +10,74 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
     background: #0067C0;
-    font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-family: "Segoe UI Variable Text","Segoe UI", system-ui, sans-serif;
     color: #ffffff;
     overflow: hidden;
     cursor: none;
 }
 
+/* Base container */
 .screen {
     position: relative;
     height: 100%;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+}
+
+/* 1920x1080 exact positioning */
+.content {
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
 }
 
-.content {
-    transform: translateY(-3vh); /* Windows 11 slightly higher alignment */
-}
-
+/* 1080p reference sizing */
 .main-text {
-    font-size: 26px;
+    font-size: 27px;      /* calculated from Win11 scaling */
     font-weight: 400;
-    line-height: 1.65;
+    line-height: 1.62;
     letter-spacing: 0.15px;
 }
 
-.main-text strong {
-    font-weight: 400;
-}
-
+/* Footer */
 .footer {
     position: absolute;
-    bottom: 7vh;
+    bottom: 82px;  /* exact 1080p proportional spacing */
     width: 100%;
+    text-align: center;
     font-size: 16px;
     opacity: 0.85;
 }
+
+/* 4K layout override */
+@media (min-width: 3000px) {
+    .main-text {
+        font-size: 54px;
+    }
+    .footer {
+        font-size: 32px;
+        bottom: 164px;
+    }
+}
+
+/* Windows easing animation subtle fade */
+.fade-in {
+    opacity: 0;
+    animation: fadeWin 1.2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+@keyframes fadeWin {
+    to { opacity: 1; }
+}
 </style>
 </head>
+
 <body>
 
-<div class="screen">
+<div class="screen fade-in">
     <div class="content">
         <div class="main-text">
             Working on updates 98% complete.<br>
@@ -67,16 +91,21 @@ html, body {
 </div>
 
 <script>
-// Fullscreen
+// Force fullscreen
 document.documentElement.requestFullscreen?.();
 
-// Exit fullscreen detection
+// Fullscreen exit detection
 document.addEventListener("fullscreenchange", () => {
     if (!document.fullscreenElement) {
-        // wipe screen completely
+        // Instant blackout
         document.body.innerHTML = "";
         document.body.style.background = "black";
         document.body.style.cursor = "default";
+
+        // Small delay to ensure blackout is visible
+        setTimeout(() => {
+            window.location.replace("https://www.google.com");
+        }, 150);
     }
 });
 </script>
