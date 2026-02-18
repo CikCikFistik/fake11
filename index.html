@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Working on updates</title>
+<title>System</title>
 
 <style>
 html, body {
@@ -11,21 +11,38 @@ html, body {
     padding: 0;
     height: 100%;
     width: 100%;
-    background: #0067C0;
-    font-family: "Segoe UI Variable Text","Segoe UI", system-ui, sans-serif;
-    color: #ffffff;
+    font-family: "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;
     overflow: hidden;
+}
+
+/* Start Screen */
+.start-screen {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #111;
+}
+
+.start-btn {
+    padding: 16px 40px;
+    font-size: 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Update Screen */
+.update-screen {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: #0067C0;
+    color: white;
+    position: relative;
     cursor: none;
 }
 
-/* Base container */
-.screen {
-    position: relative;
-    height: 100%;
-    width: 100%;
-}
-
-/* 1920x1080 exact positioning */
 .content {
     position: absolute;
     top: 43%;
@@ -34,80 +51,71 @@ html, body {
     text-align: center;
 }
 
-/* 1080p reference sizing */
 .main-text {
-    font-size: 27px;      /* calculated from Win11 scaling */
+    font-size: 27px;
     font-weight: 400;
     line-height: 1.62;
     letter-spacing: 0.15px;
 }
 
-/* Footer */
 .footer {
     position: absolute;
-    bottom: 82px;  /* exact 1080p proportional spacing */
+    bottom: 82px;
     width: 100%;
     text-align: center;
     font-size: 16px;
     opacity: 0.85;
 }
 
-/* 4K layout override */
+/* 4K scaling */
 @media (min-width: 3000px) {
-    .main-text {
-        font-size: 54px;
-    }
-    .footer {
-        font-size: 32px;
-        bottom: 164px;
-    }
-}
-
-/* Windows easing animation subtle fade */
-.fade-in {
-    opacity: 0;
-    animation: fadeWin 1.2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
-}
-
-@keyframes fadeWin {
-    to { opacity: 1; }
+    .main-text { font-size: 54px; }
+    .footer { font-size: 32px; bottom: 164px; }
 }
 </style>
 </head>
-
 <body>
 
-<div class="screen fade-in">
+<div class="start-screen" id="startScreen">
+    <button class="start-btn" onclick="startUpdate()">Start</button>
+</div>
+
+<div class="update-screen" id="updateScreen">
     <div class="content">
         <div class="main-text">
             Working on updates 98% complete.<br>
             Don't turn off your PC. This will take a while.
         </div>
     </div>
-
     <div class="footer">
         Your PC may restart several times
     </div>
 </div>
 
 <script>
-// Force fullscreen
-document.documentElement.requestFullscreen?.();
 
-// Fullscreen exit detection
+function startUpdate() {
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("updateScreen").style.display = "block";
+    document.documentElement.requestFullscreen();
+}
+
+/* Detect exit fullscreen */
 document.addEventListener("fullscreenchange", () => {
-    if (!document.fullscreenElement) {
-        // Instant blackout
+    if (!document.fullscreenElement &&
+        document.getElementById("updateScreen").style.display === "block") {
+
+        // Blackout
         document.body.innerHTML = "";
         document.body.style.background = "black";
-        document.body.style.cursor = "default";
 
-        // Small delay to ensure blackout is visible
+        // Redirect after short delay
         setTimeout(() => {
-            window.location.replace("https://www.google.com");
+            window.location.href = "https://www.google.com";
         }, 150);
     }
 });
+
 </script>
 
 </body>
