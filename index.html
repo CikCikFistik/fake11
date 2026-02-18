@@ -11,35 +11,10 @@ html, body {
     padding: 0;
     height: 100%;
     width: 100%;
-    font-family: "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;
-    overflow: hidden;
-}
-
-/* Start Screen */
-.start-screen {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #111;
-}
-
-.start-btn {
-    padding: 16px 40px;
-    font-size: 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-/* Update Screen */
-.update-screen {
-    display: none;
-    height: 100%;
-    width: 100%;
     background: #0067C0;
+    font-family: "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;
     color: white;
-    position: relative;
+    overflow: hidden;
     cursor: none;
 }
 
@@ -76,46 +51,31 @@ html, body {
 </head>
 <body>
 
-<div class="start-screen" id="startScreen">
-    <button class="start-btn" onclick="startUpdate()">Start</button>
+<div class="content">
+    <div class="main-text">
+        Working on updates 98% complete.<br>
+        Don't turn off your PC. This will take a while.
+    </div>
 </div>
 
-<div class="update-screen" id="updateScreen">
-    <div class="content">
-        <div class="main-text">
-            Working on updates 98% complete.<br>
-            Don't turn off your PC. This will take a while.
-        </div>
-    </div>
-    <div class="footer">
-        Your PC may restart several times
-    </div>
+<div class="footer">
+    Your PC may restart several times
 </div>
 
 <script>
-
-function startUpdate() {
-    document.getElementById("startScreen").style.display = "none";
-    document.getElementById("updateScreen").style.display = "block";
-    document.documentElement.requestFullscreen();
-}
-
-/* Detect exit fullscreen */
-document.addEventListener("fullscreenchange", () => {
-    if (!document.fullscreenElement &&
-        document.getElementById("updateScreen").style.display === "block") {
-
-        // Blackout
-        document.body.innerHTML = "";
-        document.body.style.background = "black";
-
-        // Redirect after short delay
-        setTimeout(() => {
-            window.location.href = "https://www.google.com";
-        }, 150);
+// Attempt fullscreen ONCE when page loads
+window.addEventListener("load", () => {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
     }
 });
 
+// ESC detection
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+        window.location.href = "https://google.com";
+    }
+});
 </script>
 
 </body>
